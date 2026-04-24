@@ -1,60 +1,66 @@
-interface IdleStateProps {
-  onAnalyze: () => void;
-}
+interface Props { onAnalyze: () => void; }
 
-export default function IdleState({ onAnalyze }: IdleStateProps) {
+export default function IdleState({ onAnalyze }: Props) {
+  const features = [
+    { icon: '🔍', title: 'Risk Analysis', desc: 'Detect security, reliability, and configuration issues' },
+    { icon: '💰', title: 'Cost Estimation', desc: 'Estimate monthly infrastructure cost impact' },
+    { icon: '🧪', title: 'Stress Simulation', desc: 'Predict behavior under traffic spikes and failures' },
+    { icon: '📂', title: 'File Scanning', desc: 'Analyze Kubernetes, Docker, Terraform, and CI files' },
+  ];
+
   return (
-    <div className="flex flex-col items-center justify-center min-h-[68vh] gap-6 text-center animate-fade-in">
-      {/* Icon */}
-      <div
-        className="flex items-center justify-center w-14 h-14 rounded-2xl text-2xl"
-        style={{
-          background: '#111827',
-          border: '1px solid rgba(255,255,255,0.07)',
-        }}
-      >
-        🛰️
+    <div className="anim-fade-up" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', minHeight: 'calc(100vh - 200px)', gap: 32, textAlign: 'center' }}>
+      {/* Animated hero */}
+      <div style={{ position: 'relative', width: 90, height: 90, animation: 'float 4s ease-in-out infinite' }}>
+        <div style={{
+          position: 'absolute', inset: 0, borderRadius: 22,
+          background: 'linear-gradient(135deg, rgba(59,130,246,0.08), rgba(6,182,212,0.04))',
+          border: '1px solid rgba(59,130,246,0.12)',
+          animation: 'glow-breathe 3s ease-in-out infinite',
+        }} />
+        <div style={{ position: 'absolute', inset: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 36 }}>
+          🛰️
+        </div>
+        <div style={{
+          position: 'absolute', width: 7, height: 7, borderRadius: '50%',
+          background: '#3b82f6', boxShadow: '0 0 12px rgba(59,130,246,0.6)',
+          top: '50%', left: '50%',
+          animation: 'orbit 5s linear infinite',
+        }} />
       </div>
 
-      {/* Text */}
-      <div className="space-y-2">
-        <h2 className="text-base font-semibold text-white">
-          Waiting for PR analysis
-        </h2>
-        <p className="text-sm max-w-xs leading-relaxed" style={{ color: '#6b7280' }}>
-          Connect a GitHub webhook or click below to fetch the latest analysis from the backend.
+      <div>
+        <h2 style={{ fontSize: 22, fontWeight: 800, color: '#f0f2f5', marginBottom: 8 }}>Awaiting PR Analysis</h2>
+        <p style={{ fontSize: 14, color: '#5a6373', maxWidth: 380, lineHeight: 1.6 }}>
+          Connect a GitHub webhook for real-time monitoring, or use Instant Analysis above to scan any public PR.
         </p>
       </div>
 
-      {/* CTA */}
-      <button
-        onClick={onAnalyze}
-        className="flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium text-white transition-all duration-150"
-        style={{ background: '#1d4ed8', border: '1px solid rgba(59,130,246,0.25)' }}
-        onMouseEnter={(e) => { (e.currentTarget as HTMLButtonElement).style.background = '#1e40af'; }}
-        onMouseLeave={(e) => { (e.currentTarget as HTMLButtonElement).style.background = '#1d4ed8'; }}
-      >
-        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
-          <polyline points="23 4 23 10 17 10" />
-          <path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10" />
-        </svg>
-        Analyze PR
-      </button>
+      {/* Feature grid — clickable */}
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 12, width: '100%', maxWidth: 720 }}>
+        {features.map((f, i) => (
+          <div
+            key={f.title}
+            className="card card-interactive"
+            style={{ padding: 20, textAlign: 'center', animation: `fade-up 0.4s ease ${i * 0.06}s both` }}
+            onClick={onAnalyze}
+          >
+            <div style={{ fontSize: 28, marginBottom: 10 }}>{f.icon}</div>
+            <div style={{ fontSize: 13, fontWeight: 700, color: '#c8cdd6', marginBottom: 4 }}>{f.title}</div>
+            <div style={{ fontSize: 11, color: '#4b5563', lineHeight: 1.5 }}>{f.desc}</div>
+          </div>
+        ))}
+      </div>
 
-      {/* Webhook hint */}
-      <div
-        className="flex items-center gap-2 px-3 py-2 rounded-lg text-xs"
-        style={{
-          background: '#111827',
-          border: '1px solid rgba(255,255,255,0.07)',
-          color: '#4b5563',
-          fontFamily: 'JetBrains Mono, monospace',
-        }}
-      >
-        <span style={{ color: '#6b7280' }}>POST</span>
-        <span>/webhook</span>
-        <span>←</span>
-        <span>GitHub PR events</span>
+      <div style={{ display: 'flex', gap: 12, alignItems: 'center' }}>
+        <button className="btn-primary" onClick={onAnalyze}>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+          Start Analyzing
+        </button>
+        <span style={{ fontSize: 12, color: '#2d3340' }}>or</span>
+        <span className="btn-ghost" style={{ fontFamily: 'JetBrains Mono, monospace', fontSize: 11 }}>
+          POST /webhook ← GitHub
+        </span>
       </div>
     </div>
   );

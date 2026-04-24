@@ -27,3 +27,6 @@ Thumbs.db
 
 # TypeScript
 *.tsbuildinfo
+
+# VigOps runtime
+.vigops/
